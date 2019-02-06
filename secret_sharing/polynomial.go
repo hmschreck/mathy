@@ -1,4 +1,4 @@
-package secret_sharing
+package main
 
 import (
 	"fmt"
