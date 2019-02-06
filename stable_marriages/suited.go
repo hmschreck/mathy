@@ -14,9 +14,17 @@ func NewSuited(id int, preferences []int) (output Suited){
 }
 
 func (s *Suited) Reject() {
+	minRank := -1
 	for _, suitor := range s.NewProposals {
-		if s.Rank(suitor.ID) < s.Rank(s.HeldSuitor.ID) && s.Rank(suitor.ID) != -1{
+		if s.Rank(suitor.ID) < minRank && s.Rank(suitor.ID) != -1{
+			minRank = s.Rank(suitor.ID)
+		}
+	}
+	for _, suitor := range s.NewProposals {
+		if s.Rank(suitor.ID) == minRank {
 			s.HeldSuitor = suitor
+		} else {
+			suitor.Reject()
 		}
 	}
 }

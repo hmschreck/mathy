@@ -9,16 +9,21 @@ func main() {
 	if len(suitors) != len(suited) {
 		log.Fatal("Not equal - someone will be all alone!")
 	}
-
-	for i := 0; i < len(suitors); i++ {
+	outerloop:
+	for  {
 		for _, suited := range suited {
 			suited.NewProposals = []*Suitor{}
 		}
 		for _, suitor := range suitors {
-			suited[suitor.Preferences[i]].NewProposals = append(suited[suitor.Preferences[i]].NewProposals, &suitor)
+			suited[suitor.Preferences[suitor.NextProposal]].NewProposals = append(suited[suitor.Preferences[suitor.NextProposal]].NewProposals, &suitor)
 		}
 		for _, suited := range suited {
 			suited.Reject()
+		}
+		for _, suitor := range suitors {
+			if suitor.NextProposal >= len(suitors) {
+				break outerloop
+			}
 		}
 	}
 }
